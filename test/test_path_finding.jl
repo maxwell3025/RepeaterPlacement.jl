@@ -41,6 +41,11 @@
     p = Path([1, 2], [10.0])
     @test p == Path([1, 2], [10.0])
     @test p == Path([2, 1], [10.0])
+
+    # hash
+    p1 = Path([1, 2], [10.0])
+    p2 = Path([2, 1], [10.0])
+    @test hash(p1) == hash(p2)
 end
 
 @testset "Path finding" begin

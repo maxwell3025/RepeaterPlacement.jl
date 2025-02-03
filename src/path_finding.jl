@@ -59,6 +59,31 @@ end
 
 Base.isempty(p::Path) = isempty(p.nodes) && isempty(p.lengths)
 
+Base.hash(p::Path) = begin
+    function lexical_lt(a::Vector, b::Vector)
+        for i in 1:length(a)
+            if a[i] < b[i]
+                return true
+            end
+            if b[i] < a[i]
+                return false
+            end
+        end
+        return false
+    end
+
+    p_reversed = Path(reverse(p.nodes), reverse(p.lengths))
+    p_ordered = p
+    if lexical_lt(p_reversed.nodes, p_ordered.nodes)
+        p_ordered = p_reversed
+    end
+    if !lexical_lt(p_ordered.nodes, p_reversed.nodes) && lexical_lt(p_reversed.lengths, p_ordered.lengths)
+        p_ordered = p_reversed
+    end
+
+    return hash(p_ordered.nodes, hash(p_ordered.lengths))::UInt64
+end
+
 Base.:(==)(p1::Path, p2::Path) = (p1.nodes == p2.nodes && p1.lengths == p2.lengths) ||
     (p1.nodes == reverse(p2.nodes) && p1.lengths == reverse(p2.lengths))
 
