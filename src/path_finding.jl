@@ -59,7 +59,25 @@ end
 
 Base.isempty(p::Path) = isempty(p.nodes) && isempty(p.lengths)
 
+"""
+    hash(p::Path)
+
+Standard hash function for `Path`.
+This implementation is consistent with `Base.:(==)(p1::Path, p2::Path)`, which
+is important for algorithms which rely on this property (e.g. `Dict`, `Set`).
+
+In particular, since every `Path` is equal to its own reverse, every `Path`
+hashes to the same value as its own reverse.
+"""
 Base.hash(p::Path) = begin
+    """
+        lexical_lt(a::Vector, b::Vector)
+    
+    Lexical ordering function for Vectors.
+    
+    This function is specific for this use case: we are only handling the case
+    where both vectors are equally sized.
+    """
     function lexical_lt(a::Vector, b::Vector)
         for i in 1:length(a)
             if a[i] < b[i]
@@ -72,16 +90,15 @@ Base.hash(p::Path) = begin
         return false
     end
 
-    p_reversed = Path(reverse(p.nodes), reverse(p.lengths))
-    p_ordered = p
-    if lexical_lt(p_reversed.nodes, p_ordered.nodes)
-        p_ordered = p_reversed
-    end
-    if !lexical_lt(p_ordered.nodes, p_reversed.nodes) && lexical_lt(p_reversed.lengths, p_ordered.lengths)
-        p_ordered = p_reversed
-    end
+    # Each `Path` is equal to its own reverse, so given `p::Path`, we need to
+    # decide if we will hash `p` or `reverse(p)`.
 
-    return hash(p_ordered.nodes, hash(p_ordered.lengths))::UInt64
+    p_reversed = Path(reverse(p.nodes), reverse(p.lengths))
+    nodes_reversion_symmetry = p_reversed.nodes == p.nodes
+    need_to_reverse = nodes_reversion_symmetry ? lexical_lt(p_reversed.lengths, p.lengths) : lexical_lt(p_reversed.nodes, p.nodes)
+    p_ordered = need_to_reverse ? p_reversed : p
+
+    return hash(p_ordered.nodes, hash(p_ordered.lengths))::UInt
 end
 
 Base.:(==)(p1::Path, p2::Path) = (p1.nodes == p2.nodes && p1.lengths == p2.lengths) ||
