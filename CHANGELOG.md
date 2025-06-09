@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2025-06-09 (v.0.3.0)
+--------------------
+- Added an optional `rng` parameter for each of the randomized graph generation functions.
+- Fixed an issue with docstrings in `Base.hash(p::Path)`.
+
 2025-04-29 (v.0.2.0)
 --------------------
 - Implemented `Base.hash()` for the `Path` type.
