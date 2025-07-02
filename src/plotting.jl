@@ -113,7 +113,6 @@ function plot_node_locations(coords::Coordinates, edges=[], special_edges=[];
     special_edges = Set(Set.(special_edges))
 
     # draw all edges
-    # for e in Iterators.flatten([edges, special_edges])
     for e in union(edges, special_edges)
         node1, node2 = [node(coords, i) for i in e]
         lw = e in special_edges ? 2 : 1
