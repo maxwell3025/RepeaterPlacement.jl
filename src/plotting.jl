@@ -54,7 +54,7 @@ function plot_graph(g::SimpleWeightedGraph, locs_x=nothing, locs_y=nothing;
         edgestrokec=edge_colors)#, kwargs...)
 end
 
-function plot_graph(g::SimpleWeightedGraph, coords::Coordinates, path=nothing, kwargs...)
+function plot_graph(g::SimpleWeightedGraph, coords::Coordinates; path=nothing, kwargs...)
     locs_x = [node(coords, i)[1] for i in 1:num_nodes(coords)]
     locs_y = [-node(coords, i)[2] for i in 1:num_nodes(coords)]
     plot_graph(g, locs_x, locs_y; path=path, kwargs...)
