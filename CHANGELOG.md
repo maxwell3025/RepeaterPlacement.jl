@@ -4,6 +4,7 @@ CHANGELOG
 UPCOMING
 --------
 - Added `waxmann_graph()` and `build_waxmann_graph()` for constructing Waxmann graphs with associated node coordinates.
+- Joint plotting of graphs and coordinates: `plot_graph()` method with graph and `Coordinates`, `plot_node_locations()` can take graphs to determine which (special) edges to draw.
 
 2025-06-09 (v.0.3.0)
 --------------------
