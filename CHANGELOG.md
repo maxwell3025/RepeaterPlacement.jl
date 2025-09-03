@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+Upcoming
+--------
+- Make `plot_node_locations()` work for 1D node coordinates.
+
 2025-07-02 (v.0.4.0)
 --------------------
 - Added `waxmann_graph()` and `build_waxmann_graph()` for constructing Waxmann graphs with associated node coordinates.

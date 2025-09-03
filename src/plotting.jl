@@ -65,6 +65,23 @@ extract_edges(p::Path) = edges(p)
 extract_edges(g::R) where R <: AbstractGraph = [(e.src, e.dst) for e in Graphs.edges(g)]
 
 """
+    _pad_coords(coords::Coordinates)
+
+Increase the dimension of the node coordinates from N-dimensional to (N+1)-dimensional by
+adding a zero for the (N+1)-th coordinate of each node.
+"""
+function _pad_coords(coords::Coordinates)
+    new_coords = Coordinates()
+    for i in 1:num_repeaters(coords)
+        new_coords = add_repeater(new_coords, [repeater(coords, i); 0.0])
+    end
+    for j in 1:num_end_nodes(coords)
+        new_coords = add_end_node(new_coords, [end_node(coords, j); 0.0])
+    end
+    new_coords
+end
+
+"""
     plot_node_locations(coords::Coordinates, edges=[], special_edges=[];
         draw_lengths=true, size=(600, 600), legend=false, padding=20, markersize=17,
         tickfontsize=12, guidefontsize=15, annotation_offset=15, annotation_fontsize=15,
@@ -86,6 +103,9 @@ function plot_node_locations(coords::Coordinates, edges=[], special_edges=[];
         draw_lengths=true, size=(600, 600), legend=false, padding=20, markersize=17,
         tickfontsize=12, guidefontsize=15, annotation_offset=15, annotation_fontsize=15,
         kwargs...)
+
+    # if the coordinates are 1-dimensional, we embed them into a 2D space
+    Base.size(nodes(coords), 1) == 1 && (coords = _pad_coords(coords))
 
     # draw the node locations
     x_min = minimum([nodes(coords)[1, i] for i in 1:num_nodes(coords)])
