@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+Upcoming
+--------
+- Fixes in adding `Path`s: can be empty, errors actually thrown on mismatch.
+
 2025-07-02 (v.0.4.0)
 --------------------
 - Added `waxmann_graph()` and `build_waxmann_graph()` for constructing Waxmann graphs with associated node coordinates.
