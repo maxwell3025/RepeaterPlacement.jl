@@ -1,8 +1,8 @@
 CHANGELOG
 =========
 
-Upcoming
---------
+2025-09-15 (v.0.4.1)
+--------------------
 - Make `plot_node_locations()` work for 1D node coordinates.
 - Fixes in adding `Path`s: can be empty, errors actually thrown on mismatch.
 
