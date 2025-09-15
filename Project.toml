@@ -1,7 +1,7 @@
 name = "RepeaterPlacement"
 uuid = "515e528d-8d63-45a6-94ad-38e69c682317"
 authors = ["Guus Avis <guusavis@hotmail.com>"]
-version = "0.4.0"
+version = "0.4.1"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"

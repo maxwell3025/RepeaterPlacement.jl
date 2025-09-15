@@ -53,7 +53,13 @@ end
 Path(nodes, coords::Coordinates) = Path(nodes, build_graph(coords))
 
 function Base.:(+)(p1::Path, p2::Path)
-    p1.nodes[end] == p2.nodes[begin] || ArgumentError("p2 must start at end node in p1")
+    isempty(p1) && return p2
+    isempty(p2) && return p1
+    p1.nodes[end] == p2.nodes[begin] ||
+        throw(ArgumentError(
+            "p2 must start with the same node as the one that p1 ends with. \
+            p1 ends at node $(p1.nodes[end]) but p2 starts at node $(p2.nodes[begin])."
+        ))
     Path([p1.nodes; p2.nodes[begin + 1:end]], [p1.lengths; p2.lengths])
 end
 
